@@ -119,3 +119,7 @@ auditLog {
    }
    transactional = true
 }
+
+// Twitter Bootstrap configuration
+grails.plugins.twitterbootstrap.fixtaglib = true
+grails.plugins.twitterbootstrap.defaultBundle = 'bundle_bootstrap'
