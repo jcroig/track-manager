@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name='layout' content='main'/>
 	<meta charset="utf-8">
     <meta name="description" content="">
     <meta name="author" content="">
-
+	<r:require modules="bootstrap"/>
+	<r:layoutResources/>
+	
     <!-- Le styles -->
     <style type="text/css">
       /* Override some defaults */
@@ -13,7 +14,7 @@
         background-color: #eee;
       }
       body {
-        padding-top: 40px; 
+        padding-top: 100px; 
       }
       .container {
         width: 300px;
@@ -34,6 +35,7 @@
 
 	  .login-form {
 		margin-left: 65px;
+		
 	  }
 	
 	  legend {

@@ -55,8 +55,5 @@ grails.project.dependency.resolution = {
 		compile ":cache-headers:1.0.4"
 		compile ":spring-security-core:1.2.7.3"
 		compile ":audit-logging:0.5.4"
-		
-		compile ":twitter-bootstrap:2.2.2"
-
     }
 }
