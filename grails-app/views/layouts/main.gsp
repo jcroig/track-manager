@@ -49,7 +49,7 @@
 		<div class="container-fluid">
 			<g:layoutBody/>
 
-			<hr>
+			<!-- <hr> -->
 
 			<footer>
 			</footer>
