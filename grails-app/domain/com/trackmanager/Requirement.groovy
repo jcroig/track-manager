@@ -12,7 +12,7 @@ class Requirement implements Serializable{
 	
 	static searchable = true
 	static auditable = true
-	static transients = ["reportedMinutes", "estimatedMinutesToFinish"]
+	static transients = ["reportedMinutes", "estimatedMinutesToFinish", "activities"]
 	static hasMany = [tasks : Task]
 	
 	Long mantis
@@ -36,6 +36,16 @@ class Requirement implements Serializable{
 	long getEstimatedMinutesToFinish() {
 		if(status == RequirementSt>atus.FINISHED) return 0
 		else return (tasks.findAll {it.status != TaskStatus.FINISHED}*.lastEstimation*.minutes).sum()
+	}
+	
+	def getActivities () {
+		def result = []
+		
+		tasks.each { task ->
+			result.addAll(task.activities)
+		}
+		
+		return result
 	}
 	
 	void refreshStatus () {

@@ -35,7 +35,7 @@ class RequirementController {
 			try{
 				command.creator = user
 				def requirementInstance = requirementService.createNewRequirement(command);
-				flash.message = message(code: 'default.created.message', args: [message(code: 'requirement.label', default: 'Requirement'), command.id])
+				flash.message = message(code: 'default.created.message', args: [message(code: 'requirement.label', default: 'Requirement'), requirementInstance.id])
 				redirect(action: "show", id: requirementInstance.id)
 			}catch (RuntimeException){
 				render(view: "create", model: [requirementInstance: command])

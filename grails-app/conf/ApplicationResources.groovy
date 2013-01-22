@@ -1,7 +1,4 @@
 modules = {
-    application {
-        resource url:'js/application.js'
-    }
 	
 	'bootstrap-js' {
 		defaultBundle 'bundle_bootstrap'
