@@ -14,4 +14,4 @@ stacktrace.log
 /out/
 /web-app/plugins
 /web-app/WEB-INF/classes
-/target-eclipse/*
+/target-eclipse/
