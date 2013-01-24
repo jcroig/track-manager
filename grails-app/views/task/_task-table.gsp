@@ -62,10 +62,12 @@
 									class="icon-trash"></i> <g:message
 										code="default.button.delete.label" default="Delete" />
 							</a></li>
-							<li><g:link controller="activity" action="create" params="['task.id': taskInstance.id]">
-								<i class="icon-time"></i>
-								<g:message code="default.create.label" args="['Activity']"/>
-							</g:link>
+							<li><g:link controller="activity" action="create"
+									params="['task.id': taskInstance.id]">
+									<i class="icon-time"></i>
+									<g:message code="default.create.label" args="['Activity']" />
+								</g:link>
+							</li>
 						</ul>
 					</div>
 				</td>
@@ -73,6 +75,3 @@
 		</g:each>
 	</tbody>
 </table>
-<div class="pagination">
-	<g:paginate total="${tasks?.size()}" />
-</div>

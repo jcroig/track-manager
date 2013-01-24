@@ -64,6 +64,9 @@
 						<div class="row-fluid">
 							<div class="span12">
 								<g:render template="task-table" model="['tasks': taskInstanceList]" />
+								<div class="pagination">
+									<g:paginate total="${taskInstanceTotal}" />
+								</div>
 							</div>
 						</div>
 					</g:if>

@@ -34,7 +34,7 @@ class Requirement implements Serializable{
 	}
 	
 	long getEstimatedMinutesToFinish() {
-		if(status == RequirementSt>atus.FINISHED) return 0
+		if(status == RequirementStatus.FINISHED) return 0
 		else return (tasks.findAll {it.status != TaskStatus.FINISHED}*.lastEstimation*.minutes).sum()
 	}
 	
@@ -78,7 +78,7 @@ class Requirement implements Serializable{
 	}
 	
 	String toString() {
-		return "id: $id, mantis: $mantis, title: $title"
+		return "Id: $id, Mantis: $mantis, Title: $title"
 	}
 	
 	public static enum RequirementStatus {

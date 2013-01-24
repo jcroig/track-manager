@@ -70,7 +70,7 @@
 				</dl>
 			</div>
 			<div class="row">
-				<div class="span2 offset10">
+				<div class="span3 offset9">
 					<g:form>
 						<div>
 							<g:hiddenField name="id" value="${requirementInstance?.id}" />
@@ -92,7 +92,7 @@
 			<div class="row">
 				<div class="span12">
 					<h2>
-						<g:message code="default.list.label" args="['Tasks']" />
+						<g:message code="tasks.label" default="Tasks" />
 					</h2>
 					<hr />
 				</div>
@@ -103,6 +103,38 @@
 				</div>
 			</div>
 		</g:if>
-	</div>
-</body>
+		<g:if test="${requirementInstance?.activities}">
+			<div class="row"><div class="span12">&nbsp;</div></div>
+			<div class="row">
+				<div class="span12">
+					<h2>
+						<g:message code="activities.label" default="Activities" />
+					</h2>
+					<hr />
+				</div>
+				<div class="row">
+					<div class="span12">
+						<g:render template="/activity/activity-table" model="['activities':requirementInstance?.activities]" />
+					</div>
+				</div>
+			</div>
+		</g:if>
+		<div class="row"><div class="span12">&nbsp;</div></div>
+		<div class="row">
+			<div class="span12">
+				<h2>
+					<g:message code="statistics.label" default="Statistics" />
+				</h2>
+				<hr />
+				<div class="row">
+					<dl class="dl-horizontal">
+						<dt><g:message code="reported.minutes.label" default="Reported minutes"/>:</dt>
+						<dd>${requirementInstance?.reportedMinutes}</dd>
+						<dt><g:message code="estimated.minutes.to.finish.label" default="Estimated minutes to finish"/></dt>
+						<dd>${requirementInstance?.estimatedMinutesToFinish}</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
