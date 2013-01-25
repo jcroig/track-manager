@@ -41,11 +41,11 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${estimationInstance?.date}">
+				<g:if test="${estimationInstance?.dateCreated}">
 				<li class="fieldcontain">
 					<span id="date-label" class="property-label"><g:message code="estimation.date.label" default="Date" /></span>
 					
-						<span class="property-value" aria-labelledby="date-label"><g:formatDate date="${estimationInstance?.date}" /></span>
+						<span class="property-value" aria-labelledby="date-label"><g:formatDate date="${estimationInstance?.dateCreated}" /></span>
 					
 				</li>
 				</g:if>

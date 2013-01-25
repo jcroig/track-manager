@@ -18,14 +18,6 @@
 	<g:select id="task" name="task.id" from="${com.trackmanager.Task.list()}" optionKey="id" required="" value="${estimationInstance?.task?.id}" class="many-to-one"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: estimationInstance, field: 'date', 'error')} required">
-	<label for="date">
-		<g:message code="estimation.date.label" default="Date" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="date" precision="day"  value="${estimationInstance?.date}"  />
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: estimationInstance, field: 'minutes', 'error')} required">
 	<label for="minutes">
 		<g:message code="estimation.minutes.label" default="Minutes" />

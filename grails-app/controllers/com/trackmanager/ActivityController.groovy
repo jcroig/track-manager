@@ -34,15 +34,10 @@ class ActivityController {
 		if(command.hasErrors()) {
 			render(view: "create", model: [activityInstance: command])
 		} else {
-			try {
-				command.user = user
-				def activityInstance = activityService.createNewActivity(command)
-				flash.message = message(code: 'default.created.message', args: [message(code: 'activity.label', default: 'Activity'), activityInstance.id])
-				redirect(action: "show", id: activityInstance.id)
-			}
-			catch (RuntimeException e){
-				render(view: "create", model: [activityInstance: command])
-			}
+			command.user = user
+			def activityInstance = activityService.createNewActivity(command)
+			flash.message = message(code: 'default.created.message', args: [message(code: 'activity.label', default: 'Activity'), activityInstance.id])
+			redirect(action: "show", id: activityInstance.id)
 		}
 	}
 
@@ -129,7 +124,7 @@ class ActivityController {
 		}
 
 		Estimation getEstimationToFinishTask () {
-			return new Estimation(minutes: expectedMinutesToFinishTask, task: task, date: new Date(), user: user)
+			return new Estimation(minutes: expectedMinutesToFinishTask, task: task, user: user)
 		}
 	}
 }

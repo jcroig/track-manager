@@ -28,7 +28,7 @@
 					
 						<th><g:message code="estimation.task.label" default="Task" /></th>
 					
-						<g:sortableColumn property="date" title="${message(code: 'estimation.date.label', default: 'Date')}" />
+						<g:sortableColumn property="dateCreated" title="${message(code: 'estimation.date.label', default: 'Date')}" />
 					
 						<g:sortableColumn property="minutes" title="${message(code: 'estimation.minutes.label', default: 'Minutes')}" />
 					
@@ -42,7 +42,7 @@
 					
 						<td>${fieldValue(bean: estimationInstance, field: "task")}</td>
 					
-						<td><g:formatDate date="${estimationInstance.date}" /></td>
+						<td><g:formatDate date="${estimationInstance.dateCreated}" /></td>
 					
 						<td>${fieldValue(bean: estimationInstance, field: "minutes")}</td>
 					

@@ -29,17 +29,15 @@ class RequirementController {
 	}
 
 	def save (RequirementCommand command) {
+		def requirementInstance
+		command.creator = user
+		
 		if (command.hasErrors()) {
 			render(view: "create", model: [requirementInstance: command])
 		} else {
-			try{
-				command.creator = user
-				def requirementInstance = requirementService.createNewRequirement(command);
-				flash.message = message(code: 'default.created.message', args: [message(code: 'requirement.label', default: 'Requirement'), requirementInstance.id])
-				redirect(action: "show", id: requirementInstance.id)
-			}catch (RuntimeException){
-				render(view: "create", model: [requirementInstance: command])
-			}
+			requirementInstance = requirementService.createNewRequirement(command);
+			flash.message = message(code: 'default.created.message', args: [message(code: 'requirement.label', default: 'Requirement'), requirementInstance.id])
+			redirect(action: "show", id: requirementInstance.id)
 		}
 	}
 
@@ -110,8 +108,6 @@ class RequirementController {
 	}
 
 	class RequirementCommand {
-		Long id
-		Long version
 		String title
 		String description
 		Long mantis

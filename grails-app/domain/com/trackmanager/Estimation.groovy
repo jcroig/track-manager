@@ -8,13 +8,12 @@ class Estimation {
 	
 	User user
 	Task task
-	Date date
+	Date dateCreated
 	Long minutes
 	
     static constraints = {
 		user(nullable: false)
 		task(nullable: false)
-		date(nullable: false)
 		minutes(min: Long.valueOf(0))
     }
 	
@@ -47,6 +46,6 @@ class Estimation {
 	}
 
 	String toString() {
-		"id: $id, user: [${user}], task: [${task}], date: $date, minutes: $minutes"
+		"id: $id, user: [${user}], task: [${task}], date: $dateCreated, minutes: $minutes"
 	}
 }

@@ -11,10 +11,8 @@ class RequirementService {
 	Requirement createNewRequirement (command) {
 		def requirement = new Requirement(command.properties)
 		requirement.status = RequirementStatus.NEW
-		def initialTask = new Task(type: TaskType.ANALYSIS, status: TaskStatus.NOT_STARTED, description: "First analysis task")
-		def defaultInitialEstimation = new Estimation(minutes: 240, task: initialTask, date: new Date(), user: command.creator)
+		def initialTask = new Task(type: TaskType.ANALYSIS, status: TaskStatus.NOT_STARTED, description: "Analysis")
 
-		initialTask.addToEstimations(defaultInitialEstimation)
 		requirement.addToTasks(initialTask)
 		requirement.save(flush: true, failOnError: true)
 
@@ -23,7 +21,7 @@ class RequirementService {
 
 	Requirement updateRequirement(requirement, command) {
 		requirement.properties = command.properties
-		requirement.save(flush:true, failOnError:true)
+		requirement.save(flush: true, failOnError: true)
 
 		return requirement
 	}
@@ -52,7 +50,7 @@ class RequirementService {
 		long totalMinutes = 0
 		if(requirement.tasks) {
 			requirement.tasks.findAll{it.type.equals type}.each {Task task ->
-				totalMinutes += task.totalReportedMinutes
+				totalMinutes += task.reportedMinutes
 			}
 		}
 		return totalMinutes

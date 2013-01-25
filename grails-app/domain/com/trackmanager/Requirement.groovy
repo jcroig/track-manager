@@ -12,7 +12,7 @@ class Requirement implements Serializable{
 	
 	static searchable = true
 	static auditable = true
-	static transients = ["reportedMinutes", "estimatedMinutesToFinish", "activities"]
+	static transients = ["reportedMinutes", "estimatedMinutesToFinish", "activities", "estimations"]
 	static hasMany = [tasks : Task]
 	
 	Long mantis
@@ -25,22 +25,24 @@ class Requirement implements Serializable{
 		title(blank:false)
 		description(blank:false)
 		status(nullable: false)
-		tasks()
     }
 	
 	long getReportedMinutes() {
 		if(!tasks) return 0
-		else (tasks*.totalReportedMinutes).sum()
+		else (tasks*.reportedMinutes).sum()
 	}
 	
 	long getEstimatedMinutesToFinish() {
 		if(status == RequirementStatus.FINISHED) return 0
-		else return (tasks.findAll {it.status != TaskStatus.FINISHED}*.lastEstimation*.minutes).sum()
+		else {
+			def expectedTasksminutes = [0]
+			expectedTasksminutes.addAll(tasks.findAll {it.status != TaskStatus.FINISHED}*.lastEstimation?.minutes)
+			return expectedTasksminutes.sum()
+		}
 	}
 	
 	def getActivities () {
 		def result = []
-		
 		tasks.each { task ->
 			result.addAll(task.activities)
 		}
@@ -63,15 +65,15 @@ class Requirement implements Serializable{
 				}
 
 				if(statusTasks[TaskType.ANALYSIS]) {
-					status = statusTasks[TaskType.ANALYSIS].find {TaskStatus.ONGOING == it.status} ? RequirementStatus.ANALYZING : RequirementStatus.NEW
+					status = statusTasks[TaskType.ANALYSIS].find {TaskStatus.ONGOING == it.status || TaskStatus.ESTIMATED == it.status} ? RequirementStatus.ANALYZING : RequirementStatus.NEW
 				} else if(statusTasks[TaskType.DEVELOPMENT]) {
-					status = statusTasks[TaskType.DEVELOPMENT].find {TaskStatus.ONGOING == it.status} ? RequirementStatus.DEVELOPING : RequirementStatus.ESTIMATED
+					status = statusTasks[TaskType.DEVELOPMENT].find {TaskStatus.ONGOING == it.status || TaskStatus.ESTIMATED == it.status} ? RequirementStatus.DEVELOPING : RequirementStatus.ESTIMATED
 				} else if(statusTasks[TaskType.FIX]) {
-					status = statusTasks[TaskType.FIX].find {TaskStatus.ONGOING == it.status} ? RequirementStatus.FIXING : RequirementStatus.READY_FIX
+					status = statusTasks[TaskType.FIX].find {TaskStatus.ONGOING == it.status || TaskStatus.ESTIMATED == it.status} ? RequirementStatus.FIXING : RequirementStatus.READY_FIX
 				} else if(statusTasks[TaskType.TEST]) {
-					status = statusTasks[TaskType.TEST].find {TaskStatus.ONGOING == it.status} ? RequirementStatus.TESTING : RequirementStatus.READY_TEST
+					status = statusTasks[TaskType.TEST].find {TaskStatus.ONGOING == it.status || TaskStatus.ESTIMATED == it.status} ? RequirementStatus.TESTING : RequirementStatus.READY_TEST
 				} else if(statusTasks[TaskType.DEPLOY]) {
-					status = statusTasks[TaskType.DEPLOY].find {TaskStatus.ONGOING == it.status} ? RequirementStatus.DEPLOYING : RequirementStatus.READY_DEPLOY
+					status = statusTasks[TaskType.DEPLOY].find {TaskStatus.ONGOING == it.status || TaskStatus.ESTIMATED == it.status} ? RequirementStatus.DEPLOYING : RequirementStatus.READY_DEPLOY
 				}
 			}
 		}
