@@ -15,16 +15,28 @@ class RequirementController {
 	ChangeEventService changeEventService
 	SpringSecurityService springSecurityService
 
-	def index() {
+	def index () {
 		redirect(action: "list", params: params)
 	}
 
-	def list(Integer max) {
+	def list (Integer max) {
 		params.max = Math.min(max ?: 10, 100)
-		[requirementInstanceList: Requirement.list(params), requirementInstanceTotal: Requirement.count()]
+		def queryWithOrder = {
+			if (params.mantis) eq('mantis', Long.valueOf(params.mantis))
+			if (params.status && params.status != ' ') eq('status', RequirementStatus.values().find {it.name() == params.status})
+			maxResults(params.max)
+			if (params.sort && params.order) order(params.sort, params.order)
+		}
+		
+		def queryWithoutOrder = {
+			if (params.mantis) eq('mantis', Long.valueOf(params.mantis))
+			if (params.status && params.status != ' ') eq('status', RequirementStatus.values().find {it.name() == params.status})
+		}
+		
+		[requirementInstanceList: Requirement.createCriteria().list(queryWithOrder), requirementInstanceTotal: Requirement.createCriteria().count(queryWithoutOrder), status: params.status, mantis: params.mantis]
 	}
 
-	def create() {
+	def create () {
 		[requirementInstance: new Requirement(params)]
 	}
 
@@ -63,7 +75,7 @@ class RequirementController {
 		[requirementInstance: requirementInstance]
 	}
 
-	def update(RequirementCommand command) {
+	def update (RequirementCommand command) {
 		def requirementInstance = Requirement.get(params.id)
 
 		if (!requirementInstance) {
@@ -83,7 +95,7 @@ class RequirementController {
 		}
 	}
 
-	def delete(Long id) {
+	def delete (Long id) {
 		def requirementInstance = Requirement.get(id)
 		if (!requirementInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'requirement.label', default: 'Requirement'), command.id])
@@ -103,7 +115,7 @@ class RequirementController {
 	}
 
 
-	def getUser() {
+	def getUser () {
 		User.get(springSecurityService.principal.id)
 	}
 
