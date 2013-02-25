@@ -1,12 +1,9 @@
-<div class="span12">
-	<h2>
-		<g:message code="default.show.label" args="[entityName]" />
-	</h2>
-	<hr />
-</div>
-</div>
+<h2>
+	<g:message code="default.show.label" args="[entityName]" />
+</h2>
+<hr/>
 <g:if test="${flash.message}">
-	<div class="row">
+	<div class="row-fluid">
 		<div class="span12">
 			<div class="alert alert-success" role="status">
 				${flash.message}
@@ -14,7 +11,7 @@
 		</div>
 	</div>
 </g:if>
-<div class="row well">
+<div class="row-fluid well">
 	<div class="span12">
 		<dl class="dl-horizontal">
 
@@ -83,3 +80,4 @@
 			</div>
 		</div>
 	</div>
+</div>

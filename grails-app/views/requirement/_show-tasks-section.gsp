@@ -1,11 +1,8 @@
-
-<div class="span12">
-	<h2>
-		<g:message code="tasks.label" default="Tasks" />
-	</h2>
-	<hr />
-</div>
-<div class="row">
+<h2>
+	<g:message code="tasks.label" default="Tasks" />
+</h2>
+<hr />
+<div class="row-fluid">
 	<div class="span12">
 		<table class="table table-bordered table-striped table-hover">
 			<thead>

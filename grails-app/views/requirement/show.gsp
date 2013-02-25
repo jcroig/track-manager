@@ -9,22 +9,31 @@
 	<r:require module="list-view"/>
 	</head>
 	<body>
-	<div id="show-requirement" class="container" role="main">
-		<div class="row">
-			<g:render template="show-requirement-section" model="['entityName': entityName, 'requirementInstance': requirementInstance]" />
-		</div>
-		<g:if test="${requirementInstance?.tasks}">
-		<div class="row">
-			<g:render template="show-tasks-section" model="['requirementInstance': requirementInstance]" />
-		</div>
-		</g:if>
-		<g:if test="${requirementInstance?.activities}">
-		<div class="row">
-			<g:render template="show-activities-section" model="['requirementInstance': requirementInstance]" />
-		</div>
-		</g:if>
-		<div class="row">
-			<g:render template="show-statistics-section" model="['requirementInstance': requirementInstance]" />
+		<div id="show-requirement" class="container" role="main">
+			<div class="row-fluid">
+				<div class="span12">
+					<g:render template="show-requirement-section" model="['entityName': entityName, 'requirementInstance': requirementInstance]" />
+				</div>
+			</div>
+			<g:if test="${requirementInstance?.tasks}">
+			<div class="row-fluid">
+				<div class="span12">
+					<g:render template="show-tasks-section" model="['requirementInstance': requirementInstance]" />
+				</div>
+			</div>
+			</g:if>
+			<g:if test="${requirementInstance?.activities}">
+			<div class="row-fluid">
+				<div class="span12">
+					<g:render template="show-activities-section" model="['requirementInstance': requirementInstance]" />
+				</div>
+			</div>
+			</g:if>
+			<div class="row-fluid">
+				<div class="span12">
+					<g:render template="show-statistics-section" model="['requirementInstance': requirementInstance]" />
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
