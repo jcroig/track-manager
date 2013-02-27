@@ -24,7 +24,7 @@ class TaskController {
 	def save() {
 		def taskInstance
 		try {
-			taskInstance = taskService.createNewTask(params)			
+			taskInstance = taskService.createNewTask(params)
 			flash.message = message(code: 'default.created.message', args: [message(code: 'task.label', default: 'Task'), taskInstance.id])
 			redirect(action: "show", id: taskInstance.id)
 		} catch (RuntimeException e) {
@@ -40,7 +40,21 @@ class TaskController {
 			return
 		}
 
-		[taskInstance: taskInstance]
+		def estimations = taskInstance.estimations?.sort{it.dateCreated}
+		def hoursActivities = []
+
+		estimations.each {
+			def activity = Activity.findByEstimationToFinishTask(it)
+			if (activity) {
+				hoursActivities << (activity.minutes + hoursActivities[-1] ?: 0) 
+			} else if (hoursActivities.size() > 0) {
+				hoursActivities << hoursActivities[-1]
+			} else {
+				hoursActivities << 0
+			}
+		}
+
+		[taskInstance: taskInstance, hoursEstimated: estimations*.minutes, hoursActivities: hoursActivities]
 	}
 
 	def edit(Long id) {

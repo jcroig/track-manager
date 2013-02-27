@@ -1,5 +1,7 @@
 package com.trackmanager
 
+import java.util.Date;
+
 class Activity {
 	static auditable = true
 	static transients = ["expectedMinutesToFinishTask"]
@@ -8,6 +10,7 @@ class Activity {
 	User user
 	Task task
 	Date date
+	Date dateCreated
 	Long minutes
 	String observations
 	Estimation estimationToFinishTask;
