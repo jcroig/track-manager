@@ -6,7 +6,7 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'requirement.label', default: 'Requirement')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
-	<r:require module="list-view"/>
+	<r:require module="show-view"/>
 	</head>
 	<body>
 		<div id="show-requirement" class="container" role="main">
@@ -25,7 +25,7 @@
 			<g:if test="${requirementInstance?.activities}">
 			<div class="row-fluid">
 				<div class="span12">
-					<g:render template="show-activities-section" model="['requirementInstance': requirementInstance]" />
+					<g:render template="/template/show-activities-section" model="['activities': requirementInstance.activities]" />
 				</div>
 			</div>
 			</g:if>
