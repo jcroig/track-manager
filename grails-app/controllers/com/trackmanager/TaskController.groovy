@@ -40,21 +40,7 @@ class TaskController {
 			return
 		}
 
-		def estimations = taskInstance.estimations?.sort{it.dateCreated}
-		def hoursActivities = []
-
-		estimations.each {
-			def activity = Activity.findByEstimationToFinishTask(it)
-			if (activity) {
-				hoursActivities << (activity.minutes + hoursActivities[-1] ?: 0) 
-			} else if (hoursActivities.size() > 0) {
-				hoursActivities << hoursActivities[-1]
-			} else {
-				hoursActivities << 0
-			}
-		}
-
-		[taskInstance: taskInstance, hoursEstimated: estimations*.minutes, hoursActivities: hoursActivities]
+		[taskInstance: taskInstance, timeDistributionGraphData: getTimeDistributionGraphData(taskInstance)]
 	}
 
 	def edit(Long id) {
@@ -114,5 +100,23 @@ class TaskController {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'task.label', default: 'Task'), id])
 			redirect(action: "show", id: id)
 		}
+	}
+	
+	def getTimeDistributionGraphData(Task task) {
+		def result = new Expando()
+		def estimations = task.estimations?.sort{it.dateCreated}
+		
+		result.estimations = estimations*.minutes
+		result.activities = []
+
+		estimations.each {
+			def activity = Activity.findByEstimationToFinishTask(it)
+			if (activity) {
+				result.activities << (activity.minutes + (result.activities ? result.activities[-1] : 0))
+			} else {
+				result.activities << (result.activities ? result.activities[-1] : 0)
+			}
+		}
+		return result
 	}
 }

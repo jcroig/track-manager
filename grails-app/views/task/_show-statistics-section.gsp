@@ -5,18 +5,24 @@
 <hr />
 <div class="row-fluid">
 	<div class="span3">
-		<p><g:message code="reported.minutes.label" default="Reported minutes" />:</p>
+		<blockquote>
+			<p><g:message code="reported.time.label" default="Reported time" />:</p>
+			<small><g:message code="minutes.label" default="Minutes" /></small>
+		</blockquote>
 	</div>
 	<div class="span9">
-		<p>${taskInstance?.reportedMinutes}</p>
+		<p class="lead">${taskInstance?.reportedMinutes}</p>
 	</div>
 </div>
 <div class="row-fluid">
 	<div class="span3">
-		<p><g:message code="estimated.minutes.to.finish.label" default="Estimated minutes to finish" />:</p>
+		<blockquote>
+			<p><g:message code="estimated.time.to.finish.label" default="Estimated time to finish" />:</p>
+			<small><g:message code="minutes.label" default="Minutes" /></small>
+		</blockquote>
 	</div>
 	<div class="span9">
-		<p>${taskInstance?.lastEstimation?.minutes}</p>
+		<p class="lead">${taskInstance?.lastEstimation?.minutes}</p>
 	</div>
 </div>
 <div class="row-fluid">
@@ -65,10 +71,10 @@ $(function () {
             },
             series: [{
                 name: 'Activities',
-                data: ${hoursActivities.encodeAsJSON()}
+                data: ${timeDistributionGraphData.activities.encodeAsJSON()}
             }, {
                 name: 'Estimations',
-                data: ${hoursEstimated.encodeAsJSON()}
+                data: ${timeDistributionGraphData.estimations.encodeAsJSON()}
             }]
         });
     });
