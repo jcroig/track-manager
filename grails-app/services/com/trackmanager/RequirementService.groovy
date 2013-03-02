@@ -40,7 +40,7 @@ class RequirementService {
 		long totalMinutes = 0;
 		if(requirement.tasks) {
 			requirement.tasks.findAll{it.type.equals type}.each {Task task->
-				totalMinutes += task.lastEstimation?.minutes ?: 0
+				totalMinutes += task.estimatedMinutesToFinish
 			}
 		}
 		return totalMinutes

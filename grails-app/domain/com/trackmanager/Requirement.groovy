@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.trackmanager.Task.TaskStatus;
 import com.trackmanager.Task.TaskType;
 
-class Requirement implements Serializable{
+class Requirement implements TimetableEntity, Serializable{
 	static mapping = {
 			description type: 'text'
 		}
@@ -27,20 +27,6 @@ class Requirement implements Serializable{
 		status(nullable: false)
     }
 	
-	long getReportedMinutes() {
-		if(!tasks) return 0
-		else (tasks*.reportedMinutes).sum()
-	}
-	
-	long getEstimatedMinutesToFinish() {
-		if(status == RequirementStatus.FINISHED) return 0
-		else {
-			def expectedTasksminutes = [0]
-			expectedTasksminutes.addAll(tasks.findAll {it.status != TaskStatus.FINISHED}*.lastEstimation?.minutes)
-			return expectedTasksminutes.sum()
-		}
-	}
-	
 	def getActivities () {
 		def result = []
 		tasks.each { task ->
@@ -48,6 +34,20 @@ class Requirement implements Serializable{
 		}
 		
 		return result
+	}
+	
+	Long getReportedMinutes () {
+		if(!tasks) return 0
+		else (tasks*.reportedMinutes).sum()
+	}
+	
+	Long getEstimatedMinutesToFinish () {
+		if(status == RequirementStatus.FINISHED) return 0
+		else {
+			def expectedTasksminutes = [0]
+			expectedTasksminutes.addAll(tasks.findAll {it.status != TaskStatus.FINISHED}*.lastEstimation?.minutes)
+			return expectedTasksminutes.sum()
+		}
 	}
 	
 	void refreshStatus () {
@@ -83,6 +83,48 @@ class Requirement implements Serializable{
 		return "Id: $id, Mantis: $mantis, Title: $title"
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((mantis == null) ? 0 : mantis.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Requirement other = (Requirement) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (mantis == null) {
+			if (other.mantis != null)
+				return false;
+		} else if (!mantis.equals(other.mantis))
+			return false;
+		if (status != other.status)
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+
+
 	public static enum RequirementStatus {
 		NEW(0), 
 		ANALYZING(1), 
