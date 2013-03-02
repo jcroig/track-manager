@@ -61,7 +61,7 @@ class RequirementController {
 			return
 		}
 
-		[requirementInstance: requirementInstance]
+		[requirementInstance: requirementInstance, timeDistributionGraphData: getTimeDistributionGraphData(requirementInstance)]
 	}
 
 	def edit (Long id) {
@@ -114,9 +114,32 @@ class RequirementController {
 		}
 	}
 
-
 	def getUser () {
 		User.get(springSecurityService.principal.id)
+	}
+		
+	def getTimeDistributionGraphData(Requirement requirement) {
+		def result = new Expando()
+		def estimations = requirement.tasks.inject([]) {total, item -> total + item.estimations}?.sort{it.dateCreated}
+		def lastTaskEstimation = [:]
+		
+		result.activities = []
+		result.estimations = []
+		
+		estimations.each { Estimation estimation ->
+			lastTaskEstimation[estimation.task] = estimation.minutes
+			result.estimations << lastTaskEstimation.values().collect {it.value}.sum()
+		}
+
+		estimations.each {
+			def activity = Activity.findByEstimationToFinishTask(it)
+			if (activity) {
+				result.activities << (activity.minutes + (result.activities ? result.activities[-1] : 0))
+			} else {
+				result.activities << (result.activities ? result.activities[-1] : 0)
+			}
+		}
+		return result
 	}
 
 	class RequirementCommand {

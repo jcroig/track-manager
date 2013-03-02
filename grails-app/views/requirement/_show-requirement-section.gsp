@@ -11,8 +11,8 @@
 		</div>
 	</div>
 </g:if>
-<div class="row-fluid well">
-	<div class="span12">
+<div class="row-fluid">
+	<div class="span12 well">
 		<dl class="dl-horizontal">
 
 			<g:if test="${requirementInstance?.mantis}">

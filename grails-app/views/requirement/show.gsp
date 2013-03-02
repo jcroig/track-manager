@@ -29,11 +29,13 @@
 				</div>
 			</div>
 			</g:if>
+			<g:if test="${requirementInstance?.activities}">
 			<div class="row-fluid">
 				<div class="span12">
-					<g:render template="show-statistics-section" model="['requirementInstance': requirementInstance]" />
+					<g:render template="/template/show-statistics-section" model="['timetableEntityInstance': requirementInstance, 'timeDistributionGraphData': timeDistributionGraphData]" />
 				</div>
 			</div>
+			</g:if>
 		</div>
 	</body>
 </html>
