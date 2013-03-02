@@ -25,7 +25,7 @@
 				
 				<div class="row-fluid">
 					<div class="span12">
-						<g:render template="show-statistics-section" model="['activities': taskInstance]" />
+						<g:render template="/template/show-statistics-section" model="['timetableEntityInstance': taskInstance, 'timeDistributionGraphData': timeDistributionGraphData]" />
 					</div>
 				</div>
 			</g:if>
