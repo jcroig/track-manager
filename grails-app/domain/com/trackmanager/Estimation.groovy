@@ -17,7 +17,7 @@ class Estimation {
 		minutes(min: Long.valueOf(0))
     }
 	
-	boolean isLastTaskEstimation() {
+	boolean isLastTaskEstimation () {
 		def lastEstimation =  task.lastEstimation
 		return lastEstimation == this
 	}
